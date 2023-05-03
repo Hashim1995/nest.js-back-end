@@ -14,43 +14,42 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
 
-@Controller('tasks')
+@Controller('tasks') // This defines the base route for all routes defined in this controller
 export class TasksController {
-  constructor(private tasksServices: TasksService) {}
+  constructor(private tasksServices: TasksService) {} // This is the constructor for the controller that injects the TasksService dependency into it.
 
-  @Get()
+  @Get() // This defines a GET route for getting all tasks
   getTasks(@Query() filterDto: GetTasksFilterDto): ITask[] {
-    // if we have any filters defined, call taskService.getTasksWithFilters
-    // otherwise, just get all tasks
     if (Object.keys(filterDto).length) {
-      //
+      // This checks if the request has any query parameters, if yes, it calls the tasksService method to get tasks with filters
       return this.tasksServices.getTasksWithFilters(filterDto);
     } else {
+      // If no query parameter exists, then it just returns all tasks
       return this.tasksServices.getAllTasks();
     }
   }
 
-  @Get('/:id')
+  @Get('/:id') // This defines a GET route for getting a task by ID
   getTaskById(@Param('id') id: string) {
     return this.tasksServices.getTaskById(id);
   }
 
-  @Post()
+  @Post() // This defines a POST route for creating a new task
   createTask(@Body() createTaskDto: CreateTaskDto): ITask {
     return this.tasksServices.createTask(createTaskDto);
   }
 
-  @Delete()
+  @Delete() // This defines a DELETE route for deleting all tasks from the list
   deleteAllTasks() {
     return this.tasksServices.deleteAllTasks();
   }
 
-  @Delete('/:id')
+  @Delete('/:id') // This defines a DELETE route for removing a task from the list by ID
   deleteTaskById(@Param('id') id: string) {
     return this.tasksServices.deleteTaskById(id);
   }
 
-  @Patch('/:id/status')
+  @Patch('/:id/status') // This defines a PATCH route for updating a task's status by ID
   updateTaskStatus(
     @Param('id') id: string,
     @Body() UpdateTaskStatusDto: UpdateTaskStatusDto,
