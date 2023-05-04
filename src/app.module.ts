@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'; // Import the Module decorator from the @nestjs/common module.
 import { TasksModule } from './tasks/tasks.module'; // Import the TasksModule from the './tasks/tasks.module' file.
 import { TypeOrmModule } from '@nestjs/typeorm'; // Import the TypeOrmModule from the @nestjs/typeorm module.
+import { Task } from './tasks/task.entity';
 
 @Module({
   // Define a new Nest.js module using the @Module decorator.
