@@ -30,11 +30,10 @@ export class TasksController {
   //   }
   // }
 
-  @Get('/:id')
-  getTaskById(@Param('id') id: string): Promise<Task> {
+  @Get('/')
+  getTaskById(@Query('id') id: string): Promise<Task> {
     return this.tasksServices.getTaskById(id);
   }
-
   // @Get('/:id') // This defines a GET route for getting a task by ID
   // getTaskById(@Param('id') id: string) {
   //   return this.tasksServices.getTaskById(id);
