@@ -9,7 +9,6 @@ import {
   Query,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { TaskStatus } from './task-status.enum';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
@@ -21,20 +20,9 @@ import { CheckIsUUID } from './custom-pipes/check-isUUID';
 export class TasksController {
   constructor(private tasksServices: TasksService) {} // This is the constructor for the controller that injects the TasksService dependency into it.
 
-  // @Get() // This defines a GET route for getting all tasks
-  // getTasks(@Query() filterDto: GetTasksFilterDto): ITask[] {
-  //   if (Object.keys(filterDto).length) {
-  //     // This checks if the request has any query parameters, if yes, it calls the tasksService method to get tasks with filters
-  //     return this.tasksServices.getTasksWithFilters(filterDto);
-  //   } else {
-  //     // If no query parameter exists, then it just returns all tasks
-  //     return this.tasksServices.getAllTasks();
-  //   }
-  // }
-
   @Get()
-  getAllTasks(): Promise<ITaskList> {
-    return this.tasksServices.getAllTasks();
+  getAllTasks(@Query() filterDto: GetTasksFilterDto): Promise<ITaskList> {
+    return this.tasksServices.getAllTasks(filterDto);
   }
 
   @Get(':id')
@@ -57,12 +45,12 @@ export class TasksController {
     return this.tasksServices.deleteAllTasks();
   }
 
-  // @Patch('/:id/status') // This defines a PATCH route for updating a task's status by ID
-  // updateTaskStatus(
-  //   @Param('id') id: string,
-  //   @Body() UpdateTaskStatusDto: UpdateTaskStatusDto,
-  // ): ITask {
-  //   const { status } = UpdateTaskStatusDto;
-  //   return this.tasksServices.updateTaskStatus(id, status);
-  // }
+  @Patch('/:id/status') // This defines a PATCH route for updating a task's status by ID
+  updateTaskStatus(
+    @Param('id') id: string,
+    @Body() UpdateTaskStatusDto: UpdateTaskStatusDto,
+  ): Promise<string> {
+    const { status } = UpdateTaskStatusDto;
+    return this.tasksServices.updateTaskStatus(id, status);
+  }
 }

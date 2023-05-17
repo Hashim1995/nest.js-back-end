@@ -17,15 +17,9 @@ export class TasksService {
     @InjectRepository(TasksRepository)
     private tasksRepository: TasksRepository,
   ) {}
-  // private tasks: ITask[] = []; // Define a private tasks property as an array of ITask objects.
-  // getAllTasks(): ITask[] {
-  //   // Define a public method called getAllTasks that returns an array of ITask objects.
-  //   return this.tasks; // Return the tasks property.
-  // }
 
-  async getAllTasks(): Promise<ITaskList> {
-    const res = await this.tasksRepository.find();
-    return { data: res, total: res?.length };
+  getAllTasks(filterDto: GetTasksFilterDto): Promise<ITaskList> {
+    return this.tasksRepository.getTasks(filterDto);
   }
   createTask(createTaskDto: CreateTaskDto): Promise<Task> {
     return this.tasksRepository.createTask(createTaskDto);
@@ -58,55 +52,11 @@ export class TasksService {
       return `${id} task has been removed`;
     }
   }
-  // getTasksWithFilters(filterDto: GetTasksFilterDto): ITask[] {
-  //   // Define a public method called getTasksWithFilters that takes a GetTasksFilterDto object as input and returns an array of ITask objects.
-  //   const { status, search } = filterDto; // Destructure the filterDto object to get the status and search properties.
-  //   let tasks = this.tasks; // Assign the tasks property to a new tasks variable.
-  //   if (status) {
-  //     // If a status property was provided in the filterDto object...
-  //     tasks = tasks.filter((item: ITask) => item.status === status); // ...filter the tasks array to only include tasks with a matching status property.
-  //   }
-  //   if (search) {
-  //     // If a search property was provided in the filterDto object...
-  //     tasks = tasks.filter((item) => {
-  //       // ...filter the tasks array based on whether the search string is included in the title or description properties of the tasks.
-  //       if (item.title.includes(search) || item.description.includes(search)) {
-  //         return true;
-  //       } else {
-  //         return false;
-  //       }
-  //     });
-  //   }
-  //   return tasks; // Return the filtered tasks array.
-  // }
-  // deleteAllTasks(): string {
-  //   // Define a public method called deleteAllTasks that deletes all tasks and returns a string.
-  //   this.tasks.length = 0; // Set the length of the tasks array to 0 to remove all tasks.
-  //   return 'all tasks removed'; // Return a message indicating that all tasks were removed.
-  // }
 
-  // deleteTaskById(id: string): string {
-  //   const found = this.getTaskById(id);
-  //   if (found) {
-  //     if (found.status === TaskStatus.DONE) {
-  //       throw new BadRequestException(
-  //         'You can not delete task which status is "DONE"',
-  //       );
-  //     } else {
-  //       this.tasks.filter((item) => item.id !== found?.id);
-  //       return `${id} task has been removed`;
-  //     }
-  //   } else {
-  //     throw new NotFoundException([`Task with ID:'${id}' not found`]);
-  //   }
-  // }
-  // updateTaskStatus(id: string, status: TaskStatus) {
-  //   const found = this.getTaskById(id);
-  //   if (found) {
-  //     found.status = status;
-  //     return found;
-  //   } else {
-  //     throw new NotFoundException([`Task with ID:'${id}' not found`]);
-  //   }
-  // }
+  async updateTaskStatus(id: string, status: TaskStatus): Promise<string> {
+    const FoundTask = await this.getTaskById(id);
+    FoundTask.status = status;
+    await this.tasksRepository.save(FoundTask);
+    return 'Task status has been successfully changed';
+  }
 }
