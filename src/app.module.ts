@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common'; // Import the Module decorator from the
 import { TasksModule } from './tasks/tasks.module'; // Import the TasksModule from the './tasks/tasks.module' file.
 import { TypeOrmModule } from '@nestjs/typeorm'; // Import the TypeOrmModule from the @nestjs/typeorm module.
 import { Task } from './tasks/task.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   // Define a new Nest.js module using the @Module decorator.
@@ -18,6 +19,7 @@ import { Task } from './tasks/task.entity';
       autoLoadEntities: true, // Automatically load entities from the application directory.
       synchronize: true, // Automatically synchronize the database schema with the entities.
     }),
+    AuthModule,
   ],
 })
 export class AppModule {} // Export the AppModule class.
