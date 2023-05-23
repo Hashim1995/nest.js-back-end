@@ -18,7 +18,7 @@ export class UserRepository extends Repository<User> {
       await this.save(user);
     } catch (err) {
       if (err.code == 23505) {
-        throw new ConflictException(['username already taken']);
+        throw new ConflictException(['Username already taken']);
       } else {
         throw new InternalServerErrorException();
       }
