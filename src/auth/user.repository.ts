@@ -13,13 +13,12 @@ export class UserRepository extends Repository<User> {
     const { username, password } = authCredentialsDto;
     const salt = await genSalt();
     const hashedPassword = await hash(password, salt);
-
     const user = this.create({ username, password: hashedPassword });
     try {
       await this.save(user);
     } catch (err) {
       if (err.code == 23505) {
-        throw new ConflictException(['username already taken']);
+        throw new ConflictException(['Username already taken']);
       } else {
         throw new InternalServerErrorException();
       }
