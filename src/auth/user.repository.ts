@@ -13,7 +13,6 @@ export class UserRepository extends Repository<User> {
     const { username, password } = authCredentialsDto;
     const salt = await genSalt();
     const hashedPassword = await hash(password, salt);
-
     const user = this.create({ username, password: hashedPassword });
     try {
       await this.save(user);
