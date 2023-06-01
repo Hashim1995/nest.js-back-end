@@ -22,4 +22,4 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
 })
-export class AppModule {} // Export the AppModule class.
+export class AppModule {}
