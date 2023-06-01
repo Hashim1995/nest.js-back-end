@@ -40,6 +40,7 @@ export class TasksController {
     return this.tasksServices.deleteTaskById(id);
   }
 
+  // delete all tasks from table
   @Delete('')
   deleteAllTasks(): Promise<string> {
     return this.tasksServices.deleteAllTasks();
