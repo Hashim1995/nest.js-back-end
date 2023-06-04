@@ -5,7 +5,7 @@ import { Task } from './tasks/task.entity';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
-  // Define a new Nest.js module using the @Module decorator.
+  // Define a new Nest.js module using the @Module decorator!
   imports: [
     // Import the TasksModule and the TypeOrmModule into the module.
     TasksModule,
