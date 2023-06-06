@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -15,8 +16,10 @@ import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
 import { Task } from './task.entity';
 import { ITaskList } from './types/tasks.types';
 import { CheckIsUUID } from './custom-pipes/check-isUUID';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('tasks') // This defines the base route for all routes defined in this controller
+@UseGuards(AuthGuard())
 export class TasksController {
   constructor(private tasksServices: TasksService) {} // This is the constructor for the controller that injects the TasksService dependency into it.
 
