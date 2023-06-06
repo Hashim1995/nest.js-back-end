@@ -8,7 +8,7 @@ import {
 import { hash, genSalt } from 'bcrypt';
 
 @EntityRepository(User)
-export class UserRepository extends Repository<User> {
+export class UsersRepository extends Repository<User> {
   async createUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
     const { username, password } = authCredentialsDto;
     const salt = await genSalt();
